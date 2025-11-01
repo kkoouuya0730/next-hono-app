@@ -1,0 +1,7 @@
+{
+  "name": "next-hono-app",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ]
+}
