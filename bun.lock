@@ -17,6 +17,8 @@
       "name": "frontend",
       "version": "0.1.0",
       "dependencies": {
+        "backend": "^0.0.0",
+        "hono": "^4.10.4",
         "next": "16.0.1",
         "react": "19.2.0",
         "react-dom": "19.2.0",
@@ -1037,6 +1039,8 @@
     "espree/acorn": ["acorn@8.15.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg=="],
 
     "fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
+
+    "frontend/backend": ["backend@0.0.0", "", {}, "sha512-Fq2aG5+zmmsKv2Dhm3ijAU5spnKOb5ldJlnnC/Vhk6n8In6zaq9eCPBMRiz2j94P/r84QEaBmtwh9tjaDPiQqg=="],
 
     "is-bun-module/semver": ["semver@7.7.3", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q=="],
 
