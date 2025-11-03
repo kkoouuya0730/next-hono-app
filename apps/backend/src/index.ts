@@ -45,7 +45,7 @@ const route = app
     const db = drizzle({ client });
     const todos = await db.select().from(todosTable);
     if (!todos) {
-      return c.json({ message: "Failed to Fetch todos" }, 500);
+      return c.text("Failed to Fetch todos", 500);
     }
     return c.json({ todos });
   });
