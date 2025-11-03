@@ -1,11 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
 import { todosTable } from "./db/schema";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import { todoSchema } from "./schemas/todo";
+import { db } from "./db";
 
 export type Env = {
   DATABASE_URL: string;
@@ -33,16 +31,12 @@ const route = app
     }),
     async (c) => {
       const { title, description } = c.req.valid("json");
-      const client = postgres(c.env.DATABASE_URL, { prepare: false });
-      const db = drizzle({ client });
       const todo = await db.insert(todosTable).values({ title, description }).returning();
 
       return c.json({ todo: todo[0] });
     }
   )
   .get("todo", async (c) => {
-    const client = postgres(c.env.DATABASE_URL, { prepare: false });
-    const db = drizzle({ client });
     const todos = await db.select().from(todosTable);
     if (!todos) {
       return c.text("Failed to Fetch todos", 500);
