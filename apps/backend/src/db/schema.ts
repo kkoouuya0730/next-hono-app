@@ -78,7 +78,6 @@ export const usersRelations = relations(users, ({ many }) => ({
   comments: many(comments),
   likes: many(likes),
   followers: many(follows, { relationName: "followers" }),
-  following: many(follows, { relationName: "following" }),
 }));
 
 export const postsRelations = relations(posts, ({ one, many }) => ({

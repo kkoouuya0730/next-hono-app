@@ -1,9 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { zValidator } from "@hono/zod-validator";
-import { todosTable } from "./db/schema";
-import { todoSchema } from "./schemas/todo";
-import { db } from "./db";
+import { todosRoute } from "./routes/todosRoute";
+import { postsRoute } from "./routes/postsRoute";
 
 export type Env = {
   DATABASE_URL: string;
@@ -18,31 +16,11 @@ app.use(
   })
 );
 
-const route = app
-  .get("/hello", (c) => {
-    return c.json({ message: "Hello Hono!" });
-  })
-  .post(
-    "/todo",
-    zValidator("json", todoSchema, (result, c) => {
-      if (!result.success) {
-        return c.json({ message: result.error.issues[0].message }, 400);
-      }
-    }),
-    async (c) => {
-      const { title, description } = c.req.valid("json");
-      const todo = await db.insert(todosTable).values({ title, description }).returning();
+const route = app.route("/todos", todosRoute).route("/posts", postsRoute);
 
-      return c.json({ todo: todo[0] });
-    }
-  )
-  .get("todo", async (c) => {
-    const todos = await db.select().from(todosTable);
-    if (!todos) {
-      return c.text("Failed to Fetch todos", 500);
-    }
-    return c.json({ todos });
-  });
+route.get("/hello", (c) => {
+  return c.json({ message: "Hello Hono!" });
+});
 
 export type AppType = typeof route;
 
