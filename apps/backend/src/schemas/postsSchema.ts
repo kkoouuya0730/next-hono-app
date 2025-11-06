@@ -5,3 +5,5 @@ export const createPostSchema = z.object({
   content: z.string(),
   imageUrl: z.string().nullable().optional(),
 });
+
+export const updatePostSchema = createPostSchema;
