@@ -4,6 +4,7 @@ import { todosRoute } from "./routes/todosRoute";
 import { postsRoute } from "./routes/postsRoute";
 import { commentsRoute } from "./routes/commentsRoute";
 import { likesRoute } from "./routes/likesRoute";
+import { followsRoute } from "./routes/followsRoute";
 
 export type Env = {
   DATABASE_URL: string;
@@ -22,7 +23,8 @@ const route = app
   .route("/todos", todosRoute)
   .route("/posts", postsRoute)
   .route("/comments", commentsRoute)
-  .route("/likes", likesRoute);
+  .route("/likes", likesRoute)
+  .route("/follows", followsRoute);
 
 route.get("/hello", (c) => {
   return c.json({ message: "Hello Hono!" });
