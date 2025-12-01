@@ -1,11 +1,5 @@
 import { pgTable, serial, text, varchar, timestamp, integer, uniqueIndex } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-export const todosTable = pgTable("todos", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  title: varchar({ length: 255 }).notNull(),
-  description: varchar({ length: 255 }),
-  createdAd: timestamp().notNull().defaultNow(),
-});
 
 // ---------- Tables ----------
 export const users = pgTable("users", {

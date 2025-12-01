@@ -1,5 +1,5 @@
 import { db } from "./index";
-import { users, posts, comments, likes, follows, todosTable } from "./schema";
+import { users, posts, comments, likes, follows } from "./schema";
 
 const userData = [
   {

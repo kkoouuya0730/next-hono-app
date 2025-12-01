@@ -15,6 +15,13 @@
       "when": 1762172676438,
       "tag": "0001_nostalgic_ben_grimm",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1764598848399,
+      "tag": "0002_drop-todos",
+      "breakpoints": true
     }
   ]
 }
