@@ -5,6 +5,7 @@ import { postsRoute } from "./routes/postsRoute";
 import { commentsRoute } from "./routes/commentsRoute";
 import { likesRoute } from "./routes/likesRoute";
 import { followsRoute } from "./routes/followsRoute";
+import { HttpError } from "./errors";
 
 export type Env = {
   DATABASE_URL: string;
@@ -18,6 +19,23 @@ app.use(
     origin: "*",
   })
 );
+
+app.onError((err: unknown, c) => {
+  if (err instanceof HttpError) {
+    const payload: any = {
+      success: false,
+      message: err.message,
+    };
+    if (err.details) payload.details = err.details;
+
+    return new Response(JSON.stringify(payload), {
+      status: err.status,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  return c.json({ success: false, message: "Internal Server Error" }, 500);
+});
 
 const route = app
   .route("/todos", todosRoute)

@@ -1,51 +1,77 @@
 import { Hono } from "hono";
-import { zValidator } from "@hono/zod-validator";
 import { db } from "../db";
-import { likes as LikesTable } from "../db/schema";
+import { likes as LikesTable, posts, users } from "../db/schema";
 import { and, eq } from "drizzle-orm";
-import { toggleLikesSchema } from "../schemas/likesSchema";
+import { ToggleLikesParam, toggleLikesSchema } from "../schemas/likesSchema";
+import { BadRequestError, NotFoundError } from "../errors";
+import { zValidatorWrapper } from "../validators";
 
 export const likesRoute = new Hono();
 
+// 特定の投稿に対するいいね一覧取得
 likesRoute.get("/", async (c) => {
-  try {
-    const postId = Number(c.req.query("postId"));
-    if (!postId) return c.json({ message: "postId is required" }, 400);
+  const postId = Number(c.req.query("postId"));
+  if (Number.isNaN(postId)) throw new BadRequestError("Invalid postId");
 
-    const result = await db.select().from(LikesTable).where(eq(LikesTable.postId, postId));
-    return c.json(result);
-  } catch (error) {
-    console.error(error);
-    return c.json({ error: "Failed to fetch likes" }, 500);
-  }
+  const post = await db
+    .select({
+      id: posts.id,
+      content: posts.content,
+      imageUrl: posts.imageUrl,
+      createdAt: posts.createdAt,
+      user: {
+        id: users.id,
+        username: users.username,
+        avatarUrl: users.avatarUrl,
+      },
+    })
+    .from(posts)
+    .where(eq(posts.id, Number(postId)))
+    .leftJoin(users, eq(posts.userId, users.id))
+    .limit(1);
+
+  if (post.length === 0) throw new NotFoundError("Post not found");
+
+  const likes = await db.select().from(LikesTable).where(eq(LikesTable.postId, postId));
+
+  if (likes.length === 0) throw new NotFoundError("This post has not received any likes.");
+
+  return c.json({ success: true });
 });
 
-likesRoute.post(
-  "/",
-  zValidator("json", toggleLikesSchema, (result, c) => {
-    if (!result.success) {
-      return c.json({ message: result.error.issues }, 400);
-    }
-  }),
-  async (c) => {
-    try {
-      const { userId, postId } = c.req.valid("json");
+// いいね機能
+likesRoute.post("/", zValidatorWrapper(toggleLikesSchema), async (c) => {
+  const { userId, postId } = c.req.valid("json") as ToggleLikesParam;
 
-      const existing = await db
-        .select()
-        .from(LikesTable)
-        .where(and(eq(LikesTable.postId, postId), eq(LikesTable.userId, userId)));
+  const post = await db
+    .select({
+      id: posts.id,
+      content: posts.content,
+      imageUrl: posts.imageUrl,
+      createdAt: posts.createdAt,
+      user: {
+        id: users.id,
+        username: users.username,
+        avatarUrl: users.avatarUrl,
+      },
+    })
+    .from(posts)
+    .where(eq(posts.id, Number(postId)))
+    .leftJoin(users, eq(posts.userId, users.id))
+    .limit(1);
 
-      if (existing.length > 0) {
-        await db.delete(LikesTable).where(eq(LikesTable.id, existing[0].id));
-        return c.json({ liked: false });
-      }
+  if (post.length === 0) throw new NotFoundError("Post not found");
 
-      await db.insert(LikesTable).values({ postId, userId }).returning();
-      return c.json({ liked: true });
-    } catch (error) {
-      console.error(error);
-      return c.json({ error: "Failed to like post" }, 500);
-    }
+  const isLiked = await db
+    .select()
+    .from(LikesTable)
+    .where(and(eq(LikesTable.postId, postId), eq(LikesTable.userId, userId)));
+
+  if (isLiked.length > 0) {
+    await db.delete(LikesTable).where(eq(LikesTable.id, isLiked[0].id));
+    return c.json({ success: true });
   }
-);
+
+  await db.insert(LikesTable).values({ postId, userId }).returning();
+  return c.json({ success: true });
+});

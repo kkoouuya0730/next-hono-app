@@ -7,3 +7,6 @@ export const createPostSchema = z.object({
 });
 
 export const updatePostSchema = createPostSchema;
+
+export type CreatePostParam = z.infer<typeof createPostSchema>;
+export type UpdatePostParam = z.infer<typeof updatePostSchema>;
