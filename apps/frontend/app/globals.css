@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+:root {
+  /* 横余白（モバイル → デスクトップ） */
+  --page-padding-x: 16px;
+  --page-padding-x-tablet: 24px;
+  --page-padding-x-desktop: 32px;
+
+  /* 最大コンテンツ幅 */
+  --page-max-width: 1200px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --page-padding-x: var(--page-padding-x-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --page-padding-x: var(--page-padding-x-desktop);
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.page-container {
+  max-width: var(--page-max-width);
+  height: var(--page-height);
+
+  padding-left: var(--page-padding-x);
+  padding-right: var(--page-padding-x);
+  margin-left: auto;
+  margin-right: auto;
+}

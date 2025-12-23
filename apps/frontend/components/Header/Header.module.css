@@ -1,0 +1,14 @@
+.header {
+  --header-height: 70px;
+
+  height: var(--header-height);
+
+  border-bottom: 1px solid black;
+
+  text-align: center;
+  font-size: large;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
