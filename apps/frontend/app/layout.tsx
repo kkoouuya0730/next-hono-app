@@ -3,6 +3,7 @@ import "./globals.css";
 import Provider from "./Provider";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
+import { AuthProvider } from "./providers/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,9 +19,11 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <Provider>
-          <Header />
-          <main className="page-container">{children}</main>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <main className="page-container">{children}</main>
+            <Footer />
+          </AuthProvider>
         </Provider>
       </body>
     </html>

@@ -1,11 +1,16 @@
 "use client";
 
+import { useAuthContext } from "@/app/providers/AuthProvider";
 import { executeSignIn } from "@/aws/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function SignInPage() {
   const router = useRouter();
+  const params = useSearchParams();
+  const redirect = params.get("redirect");
+  const { refresh } = useAuthContext();
+
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -13,7 +18,9 @@ export default function SignInPage() {
 
   const onSubmit = async () => {
     await executeSignIn(form);
-    router.push("/");
+    await refresh();
+
+    router.replace(redirect ?? "/posts");
   };
 
   return (
