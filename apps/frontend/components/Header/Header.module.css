@@ -12,3 +12,12 @@
   align-items: center;
   justify-content: center;
 }
+
+.title {
+  font-size: x-large;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+}
