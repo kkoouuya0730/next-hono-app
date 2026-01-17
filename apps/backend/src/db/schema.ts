@@ -6,7 +6,7 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: varchar("username", { length: 50 }).notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
-  passwordHash: varchar("password_hash", { length: 255 }).notNull(),
+  cognitoSub: varchar("cognito_sub", { length: 255 }).notNull().unique(),
   bio: text("bio"),
   avatarUrl: varchar("avatar_url", { length: 255 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -48,7 +48,7 @@ export const likes = pgTable(
       .notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
-  (table) => [uniqueIndex("unique_like_idx").on(table.postId, table.userId)]
+  (table) => [uniqueIndex("unique_like_idx").on(table.postId, table.userId)],
 );
 
 export const follows = pgTable(
@@ -63,7 +63,7 @@ export const follows = pgTable(
       .notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
-  (table) => [uniqueIndex("unique_follow_idx").on(table.followerId, table.followingId)]
+  (table) => [uniqueIndex("unique_follow_idx").on(table.followerId, table.followingId)],
 );
 
 // ---------- Relations ----------

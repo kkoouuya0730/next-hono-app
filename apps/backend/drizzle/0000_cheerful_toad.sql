@@ -33,12 +33,13 @@ CREATE TABLE "users" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"username" varchar(50) NOT NULL,
 	"email" varchar(255) NOT NULL,
-	"password_hash" varchar(255) NOT NULL,
+	"cognito_sub" varchar(255) NOT NULL,
 	"bio" text,
 	"avatar_url" varchar(255),
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "users_email_unique" UNIQUE("email")
+	CONSTRAINT "users_email_unique" UNIQUE("email"),
+	CONSTRAINT "users_cognito_sub_unique" UNIQUE("cognito_sub")
 );
 --> statement-breakpoint
 ALTER TABLE "comments" ADD CONSTRAINT "comments_post_id_posts_id_fk" FOREIGN KEY ("post_id") REFERENCES "public"."posts"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
