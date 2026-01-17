@@ -5,6 +5,7 @@ import { commentsRoute } from "./routes/commentsRoute";
 import { likesRoute } from "./routes/likesRoute";
 import { followsRoute } from "./routes/followsRoute";
 import { HttpError } from "./errors";
+import { meRoute } from "./routes/me";
 
 export type Env = {
   DATABASE_URL: string;
@@ -16,7 +17,7 @@ app.use(
   "*",
   cors({
     origin: "*",
-  })
+  }),
 );
 
 app.onError((err: unknown, c) => {
@@ -40,7 +41,8 @@ const route = app
   .route("/posts", postsRoute)
   .route("/comments", commentsRoute)
   .route("/likes", likesRoute)
-  .route("/follows", followsRoute);
+  .route("/follows", followsRoute)
+  .route("/me", meRoute);
 
 route.get("/hello", (c) => {
   return c.json({ message: "Hello Hono!" });
