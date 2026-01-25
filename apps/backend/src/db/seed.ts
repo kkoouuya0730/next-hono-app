@@ -1,4 +1,4 @@
-import { db } from "./index";
+import { createDb } from "./index";
 import { users, posts, comments, likes, follows } from "./schema";
 
 const userData = [
@@ -34,6 +34,8 @@ const postData = [
 const commentData = [{ content: "ナイス投稿！" }, { content: "わかります〜" }, { content: "すごくいい写真ですね！" }];
 
 async function seed() {
+  const db = createDb();
+
   console.log("Seeding database...");
 
   try {

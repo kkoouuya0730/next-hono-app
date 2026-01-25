@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { db } from "../db";
+import { createDb } from "../db";
 import { likes as LikesTable, posts, users } from "../db/schema";
 import { and, eq } from "drizzle-orm";
 import { ToggleLikesParam, toggleLikesSchema } from "../schemas/likesSchema";
@@ -10,6 +10,8 @@ export const likesRoute = new Hono();
 
 // 特定の投稿に対するいいね一覧取得
 likesRoute.get("/", async (c) => {
+  const db = createDb();
+
   const postId = Number(c.req.query("postId"));
   if (Number.isNaN(postId)) throw new BadRequestError("Invalid postId");
 
@@ -41,6 +43,8 @@ likesRoute.get("/", async (c) => {
 
 // いいね機能
 likesRoute.post("/", zValidatorWrapper(toggleLikesSchema), async (c) => {
+  const db = createDb();
+
   const { userId, postId } = c.req.valid("json") as ToggleLikesParam;
 
   const post = await db

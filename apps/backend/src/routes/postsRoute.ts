@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { db } from "../db";
+import { createDb } from "../db";
 import { posts, users } from "../db/schema";
 import { desc, eq } from "drizzle-orm";
 import { CreatePostParam, createPostSchema, UpdatePostParam, updatePostSchema } from "../schemas/postsSchema";
@@ -10,6 +10,8 @@ export const postsRoute = new Hono();
 
 // 投稿一覧取得
 postsRoute.get("/", async (c) => {
+  const db = createDb();
+
   const allPosts = await db
     .select({
       id: posts.id,
@@ -30,6 +32,8 @@ postsRoute.get("/", async (c) => {
 
 // 特定の投稿取得
 postsRoute.get("/:id", async (c) => {
+  const db = createDb();
+
   const id = Number(c.req.param("id"));
   if (Number.isNaN(id)) throw new BadRequestError("Invalid postId");
 
@@ -57,6 +61,8 @@ postsRoute.get("/:id", async (c) => {
 
 // 投稿作成
 postsRoute.post("/", zValidatorWrapper(createPostSchema), async (c) => {
+  const db = createDb();
+
   const { userId, content, imageUrl } = c.req.valid("json") as CreatePostParam;
   const newPost = await db
     .insert(posts)
@@ -74,6 +80,8 @@ postsRoute.post("/", zValidatorWrapper(createPostSchema), async (c) => {
 
 // 投稿更新
 postsRoute.put("/:id", zValidatorWrapper(updatePostSchema), async (c) => {
+  const db = createDb();
+
   const id = Number(c.req.param("id"));
   if (Number.isNaN(id)) throw new BadRequestError("Invalid postId");
 
@@ -95,6 +103,8 @@ postsRoute.put("/:id", zValidatorWrapper(updatePostSchema), async (c) => {
 
 // 投稿削除
 postsRoute.delete("/:id", async (c) => {
+  const db = createDb();
+
   const id = Number(c.req.param("id"));
   if (Number.isNaN(id)) throw new BadRequestError("Invalid postId");
 

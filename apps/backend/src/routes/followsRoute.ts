@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-import { db } from "../db";
+import { createDb } from "../db";
 import { follows as FollowsTable } from "../db/schema";
 import { and, eq } from "drizzle-orm";
 import { CreateFollowParam, toggleFollowSchema } from "../schemas/followsSchema";
@@ -11,6 +11,8 @@ export const followsRoute = new Hono();
 
 // 特定のユーザーのフォローリストを取得する
 followsRoute.get("/", async (c) => {
+  const db = createDb();
+
   const userId = Number(c.req.query("userId"));
   if (Number.isNaN(userId)) throw new BadRequestError("Invalid userId");
 
@@ -20,6 +22,8 @@ followsRoute.get("/", async (c) => {
 
 // 特定のユーザーのフォロワーを取得する
 followsRoute.get("/followers", async (c) => {
+  const db = createDb();
+
   const userId = Number(c.req.query("userId"));
   if (Number.isNaN(userId)) throw new BadRequestError("Invalid userId");
 
@@ -29,6 +33,8 @@ followsRoute.get("/followers", async (c) => {
 
 // フォロー/アンフォロー機能
 followsRoute.post("/", zValidatorWrapper(toggleFollowSchema), async (c) => {
+  const db = createDb();
+
   const { followerId, followingId } = c.req.valid("json") as CreateFollowParam;
 
   const existing = await db

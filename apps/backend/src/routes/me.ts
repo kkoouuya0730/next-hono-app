@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { db } from "../db";
+import { createDb } from "../db";
 import { users } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { authMiddleware } from "../middlewares/auth";
@@ -12,6 +12,8 @@ type AuthUser = {
 export const meRoute = new Hono();
 
 meRoute.get("/", authMiddleware, async (c) => {
+  const db = createDb();
+
   const authUser = c.get("user") as AuthUser;
 
   const cognitoSub = authUser.userId;

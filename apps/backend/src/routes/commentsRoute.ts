@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { comments as CommentsTable, users as UserTable } from "../db/schema";
-import { db } from "../db";
+import { createDb } from "../db";
 import {
   CreateCommentParam,
   createCommentSchema,
@@ -15,6 +15,8 @@ export const commentsRoute = new Hono();
 
 // 特定の投稿に対するコメント投稿
 commentsRoute.post("/", zValidatorWrapper(createCommentSchema), async (c) => {
+  const db = createDb();
+
   const { userId, postId, content } = c.req.valid("json") as CreateCommentParam;
   const comments = await db.insert(CommentsTable).values({ userId, postId, content }).returning();
 
@@ -23,6 +25,8 @@ commentsRoute.post("/", zValidatorWrapper(createCommentSchema), async (c) => {
 
 // 特定の投稿に対するコメント一覧
 commentsRoute.get("/", async (c) => {
+  const db = createDb();
+
   const postId = Number(c.req.param("postId"));
   if (Number.isNaN(postId)) throw new BadRequestError("Invalid postId");
 
@@ -50,6 +54,8 @@ commentsRoute.get("/", async (c) => {
 
 // コメント更新
 commentsRoute.put("/:id", zValidatorWrapper(updateCommentSchema), async (c) => {
+  const db = createDb();
+
   const id = Number(c.req.param("id"));
   if (Number.isNaN(id)) throw new BadRequestError("Invalid commentId");
 
@@ -67,6 +73,8 @@ commentsRoute.put("/:id", zValidatorWrapper(updateCommentSchema), async (c) => {
 
 // コメント削除
 commentsRoute.delete("/:id", async (c) => {
+  const db = createDb();
+
   const id = c.req.param("id");
   if (Number.isNaN(id)) throw new BadRequestError("Invalid commentId");
 
