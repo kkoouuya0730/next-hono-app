@@ -1,12 +1,14 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { getAuthenticatedUser } from "@/aws/auth";
 import { signOut } from "aws-amplify/auth";
+import { MeResponse } from "@/types/me";
+import { apiFetch } from "@/utils/fetchClient";
+import { Hub } from "aws-amplify/utils";
 
 type AuthContextValue = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any | null;
+  user: MeResponse | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   logout: () => Promise<void>;
@@ -16,31 +18,47 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<MeResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchingRef = useRef(false);
+
   const fetchUser = async () => {
+    if (fetchingRef.current) return;
+    fetchingRef.current = true;
+
     setIsLoading(true);
     try {
-      const currentUser = await getAuthenticatedUser();
-      setUser(currentUser);
+      await getAuthenticatedUser();
+
+      const me = await apiFetch<MeResponse>("/me");
+      setUser(me);
     } catch {
       setUser(null);
     } finally {
       setIsLoading(false);
+      fetchingRef.current = false;
     }
   };
 
   useEffect(() => {
     fetchUser();
+
+    const unsubscribe = Hub.listen("auth", ({ payload }) => {
+      if (payload.event === "signedIn") {
+        fetchUser();
+      }
+      if (payload.event === "signedOut") {
+        setUser(null);
+      }
+    });
+
+    return unsubscribe;
   }, []);
 
   const logout = async () => {
     await signOut();
-    await fetchUser();
-    // stateを変更するのではなく、cognito(getAuthenticatedUser)を真として再取得
-    // setUser(null);
+    setUser(null);
   };
 
   return (
