@@ -4,3 +4,4 @@ export { UserIcon } from "./UserIcon";
 export { UserPlusIcon } from "./UserPlusIcon";
 export { SearchIcon } from "./SearchIcon";
 export { MailIcon } from "./MailIcon";
+export { LogoIcon } from "./LogoIcon";
