@@ -1,0 +1,134 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  /* a11y フォーカス表示 */
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px #fff,
+      0 0 0 4px #4d4d4e;
+  }
+
+  /* disabled状態 */
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* Variants */
+.primary {
+  background-color: #1d9bf0;
+  color: #ffffff;
+
+  &:hover:not(:disabled):not(.loading) {
+    background-color: #1a8cd8;
+  }
+
+  &:active:not(:disabled):not(.loading) {
+    background-color: #1570b8;
+  }
+}
+
+.secondary {
+  background-color: transparent;
+  color: #1d9bf0;
+  border: 1px solid #1d9bf0;
+
+  &:hover:not(:disabled):not(.loading) {
+    background-color: rgba(29, 155, 240, 0.1);
+  }
+
+  &:active:not(:disabled):not(.loading) {
+    background-color: rgba(29, 155, 240, 0.2);
+  }
+}
+
+.tertiary {
+  background-color: transparent;
+  color: #0f172a;
+
+  &:hover:not(:disabled):not(.loading) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:active:not(:disabled):not(.loading) {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Sizes */
+.small {
+  padding: 6px 16px;
+  font-size: 14px;
+  min-height: 32px;
+}
+
+.medium {
+  padding: 10px 24px;
+  font-size: 16px;
+  min-height: 40px;
+}
+
+.large {
+  padding: 14px 32px;
+  font-size: 18px;
+  min-height: 52px;
+}
+
+/* Loading */
+.loading {
+  cursor: wait;
+  position: relative;
+}
+
+.wide {
+  width: 100%;
+}
+
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icons */
+.startIcon,
+.endIcon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.startIcon {
+  margin-left: -4px;
+}
+
+.endIcon {
+  margin-right: -4px;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+}
