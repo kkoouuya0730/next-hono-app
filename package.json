@@ -1,7 +1,5 @@
 {
   "name": "next-hono-app",
   "private": true,
-  "workspaces": [
-    "apps/*"
-  ]
+  "packageManager": "pnpm@10.30.1"
 }
