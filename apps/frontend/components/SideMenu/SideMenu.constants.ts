@@ -1,34 +1,32 @@
-import { BellIcon, HomeIcon, MailIcon, SearchIcon, UserIcon, UserPlusIcon } from "../icons";
-
 export const SIDE_MENU_ITEMS = [
   {
     href: "/",
     label: "Home",
-    Icon: HomeIcon,
+    iconName: "home",
   },
   {
     href: "/explore",
     label: "Explore",
-    Icon: SearchIcon,
+    iconName: "search",
   },
   {
     href: "/notifications",
     label: "Notification",
-    Icon: BellIcon,
+    iconName: "bell",
   },
   {
     href: "/follow",
     label: "Follow",
-    Icon: UserPlusIcon,
+    iconName: "userPlus",
   },
   {
     href: "/chat",
     label: "Chat",
-    Icon: MailIcon,
+    iconName: "mail",
   },
   {
     href: "/profile",
     label: "Profile",
-    Icon: UserIcon,
+    iconName: "user",
   },
 ] as const;

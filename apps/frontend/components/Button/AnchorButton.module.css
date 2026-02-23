@@ -1,0 +1,46 @@
+.link {
+  padding: 12px;
+  border-radius: 9999px;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  font-size: 16px;
+  color: #0f172a;
+  text-decoration: none;
+
+  /* a11y フォーカス時に明確に見えるようにする */
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #4d4d4e;
+  }
+
+  /* a11y アクティブ状態を視覚的に示す */
+  &[aria-current="page"] {
+    font-weight: bold;
+  }
+}
+
+/* 
+a11y マウス操作時のみホバースタイルを当てる
+タッチデバイスでタップした後にホバースタイルが当たってしまうのを防ぐ
+フォーカスリング表示時はホバースタイルを当てない
+*/
+@media (hover: hover) {
+  .link:hover:not(:focus-visible) {
+    border-radius: 9999px;
+    background-color: #e7e7e8;
+    transition: background-color 0.3s;
+  }
+}
+
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  flex-shrink: 0;
+}
+
+.label {
+  font-size: 16px;
+}

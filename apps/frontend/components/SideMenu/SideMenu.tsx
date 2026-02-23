@@ -1,8 +1,9 @@
-import Link from "next/link";
 import styles from "./SideMenu.module.css";
 import { SIDE_MENU_ITEMS } from "./SideMenu.constants";
 import { LogoIcon } from "../icons";
 import { usePathname } from "next/navigation";
+import { Button } from "../Button/Button";
+import { AnchorButton } from "../Button/AnchorButton";
 
 export default function SideMenu() {
   const pathname = usePathname();
@@ -14,23 +15,23 @@ export default function SideMenu() {
       </h1>
 
       <nav>
-        <ul>
-          {SIDE_MENU_ITEMS.map(({ href, label, Icon }) => {
+        <ul className={styles.menuList}>
+          {SIDE_MENU_ITEMS.map(({ href, label, iconName }) => {
             const isCurrent = pathname === href ? "page" : undefined;
             return (
               <li key={label}>
-                <Link href={href} className={styles.menuLink} aria-current={isCurrent}>
-                  <Icon className={styles.menuIcon} variant={isCurrent ? "solid" : "outline"} aria-hidden="true" />
-                  <span className={styles.menuLabel}>{label}</span>
-                </Link>
+                <AnchorButton iconName={iconName} href={href} isCurrent={isCurrent}>
+                  {label}
+                </AnchorButton>
               </li>
             );
           })}
         </ul>
       </nav>
 
-      <button>Post</button>
-      <div>xxx</div>
+      <div className={styles.buttonContainer}>
+        <Button wide>Post</Button>
+      </div>
     </header>
   );
 }
