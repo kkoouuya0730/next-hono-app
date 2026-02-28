@@ -10,8 +10,9 @@ export default function SideMenu() {
 
   return (
     <header>
-      <h1>
-        <LogoIcon className={styles.menuIcon} aria-label="X" />
+      <h1 className={styles.heading}>
+        <LogoIcon className={styles.menuIcon} aria-label="Next Hono App" />
+        <span className={styles.headingContent}>Next-Hono-App</span>
       </h1>
 
       <nav>

@@ -1,3 +1,14 @@
+.heading {
+  padding: 12px;
+
+  display: inline-flex;
+  gap: 12px;
+}
+
+.headingContent {
+  font-weight: bold;
+}
+
 .menuList {
   display: flex;
   flex-direction: column;
