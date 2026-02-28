@@ -1,9 +1,9 @@
 import styles from "./SideMenu.module.css";
 import { SIDE_MENU_ITEMS } from "./SideMenu.constants";
-import { LogoIcon } from "../icons";
 import { usePathname } from "next/navigation";
 import { Button } from "../Button/Button";
 import { AnchorButton } from "../Button/AnchorButton";
+import UseIcon from "../icons/UseIcon";
 
 export default function SideMenu() {
   const pathname = usePathname();
@@ -11,7 +11,7 @@ export default function SideMenu() {
   return (
     <header>
       <h1 className={styles.heading}>
-        <LogoIcon className={styles.menuIcon} aria-label="Next Hono App" />
+        <UseIcon iconName="logo" aria-label="Next Hono App" />
         <span className={styles.headingContent}>Next-Hono-App</span>
       </h1>
 

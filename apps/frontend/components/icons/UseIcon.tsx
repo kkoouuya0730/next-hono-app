@@ -1,5 +1,7 @@
+import clsx from "clsx";
 import { BellIcon, HomeIcon, LogoIcon, MailIcon, SearchIcon, UserIcon, UserPlusIcon } from ".";
 import { IconProps } from "./icon.types";
+import styles from "./Icon.module.css";
 
 const ICONNAME_MAPPING = {
   home: HomeIcon,
@@ -24,5 +26,5 @@ export default function UseIcon({ iconName, variant, className, ...props }: Prop
 
   if (!SelectedIcon) return null;
 
-  return <SelectedIcon className={className} variant={variant} aria-hidden="true" {...props} />;
+  return <SelectedIcon className={clsx([className, styles.icon])} variant={variant} {...props} />;
 }

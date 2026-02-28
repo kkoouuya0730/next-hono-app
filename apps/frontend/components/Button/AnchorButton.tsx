@@ -29,7 +29,7 @@ interface AnchorButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const AnchorButton = ({ iconName, href, isCurrent, children }: AnchorButtonProps) => {
   return (
     <Link href={href} className={styles.link} aria-current={isCurrent}>
-      <UseIcon className={styles.icon} variant={isCurrent ? "solid" : "outline"} iconName={iconName} />
+      <UseIcon variant={isCurrent ? "solid" : "outline"} iconName={iconName} />
       <span className={styles.label}>{children}</span>
     </Link>
   );
