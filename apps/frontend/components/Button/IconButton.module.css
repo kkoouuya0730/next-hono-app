@@ -1,0 +1,79 @@
+.button {
+  padding: 4px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  /* a11y フォーカス表示 */
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px #fff,
+      0 0 0 4px #4d4d4e;
+  }
+
+  /* disabled状態 */
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ホバー状態 */
+  &:hover:not(:disabled):not(.loading) {
+    background-color: rgba(29, 155, 240, 0.1);
+  }
+
+  /* アクティブ状態 */
+  &:active:not(:disabled):not(.loading) {
+    background-color: rgba(29, 155, 240, 0.2);
+  }
+}
+
+/* Sizes */
+.small {
+  font-size: 14px;
+}
+
+.medium {
+  font-size: 16px;
+}
+
+.large {
+  font-size: 18px;
+}
+
+/* Loading */
+.loading {
+  cursor: wait;
+  position: relative;
+}
+
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icons */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
