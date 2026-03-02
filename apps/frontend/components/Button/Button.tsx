@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import styles from "./Button.module.css";
 import clsx from "clsx";
+import UseIcon, { IconName } from "../icons/UseIcon";
 
 export const ButtonVariantPropertyValues = ["primary", "secondary", "tertiary"] as const;
 type ButtonVariant = (typeof ButtonVariantPropertyValues)[number];
@@ -20,9 +21,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** ローディング状態 */
   loading?: boolean;
   /** アイコン（左側） */
-  startIcon?: ReactNode;
+  startIconName?: IconName;
   /** アイコン（右側） */
-  endIcon?: ReactNode;
+  endIconName?: IconName;
   /** 子要素 */
   children: ReactNode;
 }
@@ -32,8 +33,8 @@ export const Button = ({
   size = "medium",
   wide = false,
   loading = false,
-  startIcon,
-  endIcon,
+  startIconName,
+  endIconName,
   disabled,
   className,
   children,
@@ -51,17 +52,9 @@ export const Button = ({
   return (
     <button className={classNames} disabled={disabled || loading} aria-busy={loading} {...props}>
       {loading && <span className={styles.spinner} aria-hidden="true" />}
-      {!loading && startIcon && (
-        <span className={styles.startIcon} aria-hidden="true">
-          {startIcon}
-        </span>
-      )}
+      {!loading && startIconName && <UseIcon iconName={startIconName} className={styles.startIcon} />}
       <span className={styles.label}>{children}</span>
-      {!loading && endIcon && (
-        <span className={styles.endIcon} aria-hidden="true">
-          {endIcon}
-        </span>
-      )}
+      {!loading && endIconName && <UseIcon iconName={endIconName} className={styles.startIcon} />}
     </button>
   );
 };

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { Button, ButtonSizePropertyValues, ButtonVariantPropertyValues } from "./Button";
+import { iconNameValue } from "../icons/UseIcon";
 
 const meta = {
   title: "Button",
@@ -20,6 +21,14 @@ const meta = {
     },
     loading: {
       control: { type: "boolean" },
+    },
+    startIconName: {
+      control: { type: "select" },
+      options: iconNameValue,
+    },
+    endIconName: {
+      control: { type: "select" },
+      options: iconNameValue,
     },
   },
   args: {
