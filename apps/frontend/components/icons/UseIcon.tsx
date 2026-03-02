@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { BellIcon, HomeIcon, LogoIcon, MailIcon, SearchIcon, UserIcon, UserPlusIcon } from ".";
 import { IconProps } from "./icon.types";
 import styles from "./Icon.module.css";
+import { EllipsisHorizontalIcon } from "./EllipsisHorizontalIcon";
 
 const ICONNAME_MAPPING = {
   home: HomeIcon,
@@ -11,6 +12,7 @@ const ICONNAME_MAPPING = {
   search: SearchIcon,
   mail: MailIcon,
   logo: LogoIcon,
+  ellipsisHorizontal: EllipsisHorizontalIcon,
 };
 
 export const iconNameValue = Object.keys(ICONNAME_MAPPING) as Array<keyof typeof ICONNAME_MAPPING>;
