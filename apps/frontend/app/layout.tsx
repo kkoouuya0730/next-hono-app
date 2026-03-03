@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Provider from "./Provider";
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { AuthProvider } from "./providers/AuthProvider";
 
 export const metadata: Metadata = {
@@ -20,9 +18,7 @@ export default function RootLayout({
       <body>
         <Provider>
           <AuthProvider>
-            <Header />
             <main className="page-container">{children}</main>
-            <Footer />
           </AuthProvider>
         </Provider>
       </body>
