@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, MouseEventHandler } from "react";
 import styles from "./IconButton.module.css";
 import clsx from "clsx";
 import UseIcon, { IconName } from "../icons/UseIcon";
@@ -17,6 +17,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * アイコンだけだと視覚的ラベルが存在しないので、aria-labelを必須にする
    */
   ariaLabel: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const IconButton = ({

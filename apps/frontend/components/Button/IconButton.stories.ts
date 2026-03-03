@@ -39,6 +39,7 @@ export const Default: Story = {
     iconName: "ellipsisHorizontal",
     title: "もっと見る",
     ariaLabel: "もっと見る",
+    onClick: () => alert("Hello"),
   },
 };
 
@@ -48,6 +49,7 @@ export const Loading: Story = {
     iconName: "ellipsisHorizontal",
     title: "もっと見る",
     ariaLabel: "もっと見る",
+    onClick: () => alert("Hello"),
   },
 };
 
@@ -57,5 +59,6 @@ export const Disabled: Story = {
     iconName: "ellipsisHorizontal",
     title: "もっと見る",
     ariaLabel: "もっと見る",
+    onClick: () => alert("Hello"),
   },
 };
