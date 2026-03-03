@@ -8,6 +8,12 @@
 
   /* 最大コンテンツ幅 */
   --page-max-width: 1200px;
+
+  /* カラーコード */
+  /* 汎用ホバー効果 */
+  --bg-hover: #f5f8fa;
+  /* フォーカスリング */
+  --focus-color: #1d9bf0;
 }
 
 @media (min-width: 768px) {
