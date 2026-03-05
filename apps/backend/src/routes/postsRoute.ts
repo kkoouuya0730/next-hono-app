@@ -1,119 +1,50 @@
 import { Hono } from "hono";
-import { createDb } from "../db";
-import { posts, users } from "../db/schema";
-import { desc, eq } from "drizzle-orm";
 import { CreatePostParam, createPostSchema, UpdatePostParam, updatePostSchema } from "../schemas/postsSchema";
 import { BadRequestError, NotFoundError } from "../errors";
 import { zValidatorWrapper } from "../validators";
+import { PostRepository } from "../repository/postRepository";
 
 export const postsRoute = new Hono();
+const postRepository = new PostRepository();
 
 // 投稿一覧取得
 postsRoute.get("/", async (c) => {
-  const db = createDb();
-
-  const allPosts = await db
-    .select({
-      id: posts.id,
-      content: posts.content,
-      imageUrl: posts.imageUrl,
-      createdAt: posts.createdAt,
-      user: {
-        id: users.id,
-        username: users.username,
-        avatarUrl: users.avatarUrl,
-      },
-    })
-    .from(posts)
-    .leftJoin(users, eq(posts.userId, users.id))
-    .orderBy(desc(posts.createdAt));
+  const allPosts = await postRepository.findAll();
   return c.json({ success: true, data: allPosts });
 });
 
 // 特定の投稿取得
 postsRoute.get("/:id", async (c) => {
-  const db = createDb();
-
   const id = Number(c.req.param("id"));
   if (Number.isNaN(id)) throw new BadRequestError("Invalid postId");
-
-  const post = await db
-    .select({
-      id: posts.id,
-      content: posts.content,
-      imageUrl: posts.imageUrl,
-      createdAt: posts.createdAt,
-      user: {
-        id: users.id,
-        username: users.username,
-        avatarUrl: users.avatarUrl,
-      },
-    })
-    .from(posts)
-    .where(eq(posts.id, Number(id)))
-    .leftJoin(users, eq(posts.userId, users.id))
-    .limit(1);
-
-  if (post.length === 0) throw new NotFoundError("Post not found");
-
-  return c.json({ success: true, data: post[0] });
+  const post = await postRepository.findById(id);
+  if (!post) throw new NotFoundError("Post not found");
+  return c.json({ success: true, data: post });
 });
 
 // 投稿作成
 postsRoute.post("/", zValidatorWrapper(createPostSchema), async (c) => {
-  const db = createDb();
-
   const { userId, content, imageUrl } = c.req.valid("json") as CreatePostParam;
-  const newPost = await db
-    .insert(posts)
-    .values({
-      userId,
-      content,
-      imageUrl,
-    })
-    .returning();
-
-  if (newPost.length === 0) throw new BadRequestError("Create Post failed");
-
-  return c.json({ success: true, data: newPost[0] });
+  const newPost = await postRepository.create({ userId, content, imageUrl });
+  if (!newPost) throw new BadRequestError("Create Post failed");
+  return c.json({ success: true, data: newPost });
 });
 
 // 投稿更新
 postsRoute.put("/:id", zValidatorWrapper(updatePostSchema), async (c) => {
-  const db = createDb();
-
   const id = Number(c.req.param("id"));
   if (Number.isNaN(id)) throw new BadRequestError("Invalid postId");
-
   const { userId, content, imageUrl } = c.req.valid("json") as UpdatePostParam;
-  const updatedPosts = await db
-    .update(posts)
-    .set({
-      userId,
-      content,
-      imageUrl,
-    })
-    .where(eq(posts.id, Number(id)))
-    .returning();
-
-  if (updatedPosts.length === 0) throw new NotFoundError("Update Post failed");
-
-  return c.json({ success: true, data: updatedPosts[0] });
+  const updatedPost = await postRepository.update({ postId: id, userId, content, imageUrl });
+  if (!updatedPost) throw new NotFoundError("Update Post failed");
+  return c.json({ success: true, data: updatedPost });
 });
 
 // 投稿削除
 postsRoute.delete("/:id", async (c) => {
-  const db = createDb();
-
   const id = Number(c.req.param("id"));
   if (Number.isNaN(id)) throw new BadRequestError("Invalid postId");
-
-  const deletedPosts = await db
-    .delete(posts)
-    .where(eq(posts.id, Number(id)))
-    .returning();
-
-  if (deletedPosts.length === 0) throw new NotFoundError("Delete Post failed");
-
+  const deletedPosts = await postRepository.delete(id);
+  if (!deletedPosts) throw new NotFoundError("Delete Post failed");
   return c.json({ success: true });
 });
