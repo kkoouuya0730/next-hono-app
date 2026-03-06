@@ -1,13 +1,11 @@
 import { createDb } from "../db";
-import { posts, users } from "../db/schema";
-import { Post } from "../domain/post";
+import { posts } from "../db/schema";
+import { CreatePostInput, Post, UpdatePostInput } from "../domain/post";
 import { desc, eq } from "drizzle-orm";
-import { CreatePostParam, UpdatePostParam } from "../schemas/postsSchema";
 
 export class PostRepository {
-  async findAll(): Promise<Post[] | null> {
+  async findAll(): Promise<Post[]> {
     const db = createDb();
-
     const result = await db
       .select({
         id: posts.id,
@@ -18,15 +16,12 @@ export class PostRepository {
         userId: posts.userId,
       })
       .from(posts)
-      .leftJoin(users, eq(posts.userId, users.id))
       .orderBy(desc(posts.createdAt));
-
     return result;
   }
 
   async findById(id: number): Promise<Post | null> {
     const db = createDb();
-
     const result = await db
       .select({
         id: posts.id,
@@ -37,16 +32,13 @@ export class PostRepository {
         userId: posts.userId,
       })
       .from(posts)
-      .where(eq(posts.id, Number(id)))
-      .leftJoin(users, eq(posts.userId, users.id))
+      .where(eq(posts.id, id))
       .limit(1);
-
     return result[0] ?? null;
   }
 
-  async create({ userId, content, imageUrl }: CreatePostParam): Promise<Post> {
+  async create({ userId, content, imageUrl }: CreatePostInput): Promise<Post> {
     const db = createDb();
-
     const result = await db
       .insert(posts)
       .values({
@@ -55,13 +47,11 @@ export class PostRepository {
         imageUrl,
       })
       .returning();
-
     return result[0];
   }
 
-  async update({ postId, userId, content, imageUrl }: UpdatePostParam): Promise<Post> {
+  async update({ postId, userId, content, imageUrl }: UpdatePostInput): Promise<Post> {
     const db = createDb();
-
     const result = await db
       .update(posts)
       .set({
@@ -69,20 +59,14 @@ export class PostRepository {
         content,
         imageUrl,
       })
-      .where(eq(posts.id, Number(postId)))
+      .where(eq(posts.id, postId))
       .returning();
-
     return result[0];
   }
 
   async delete(id: number): Promise<boolean> {
     const db = createDb();
-
-    const result = await db
-      .delete(posts)
-      .where(eq(posts.id, Number(id)))
-      .returning();
-
+    const result = await db.delete(posts).where(eq(posts.id, id)).returning();
     return result.length > 0;
   }
 }

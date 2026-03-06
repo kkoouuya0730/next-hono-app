@@ -6,3 +6,11 @@ export type Post = {
   updatedAt: Date;
   userId: number;
 };
+
+export type CreatePostInput = {
+  userId: number;
+  content: string;
+  imageUrl?: string | null;
+};
+
+export type UpdatePostInput = CreatePostInput & { postId: number };
