@@ -13,4 +13,8 @@ export type CreatePostInput = {
   imageUrl?: string | null;
 };
 
-export type UpdatePostInput = CreatePostInput & { postId: number };
+export type UpdatePostInput = {
+  postId: number;
+  content: string;
+  imageUrl?: string | null;
+};

@@ -50,18 +50,17 @@ export class PostRepository {
     return result[0];
   }
 
-  async update({ postId, userId, content, imageUrl }: UpdatePostInput): Promise<Post> {
+  async update({ postId, content, imageUrl }: UpdatePostInput): Promise<Post | null> {
     const db = createDb();
     const result = await db
       .update(posts)
       .set({
-        userId,
         content,
         imageUrl,
       })
       .where(eq(posts.id, postId))
       .returning();
-    return result[0];
+    return result[0] ?? null;
   }
 
   async delete(id: number): Promise<boolean> {
