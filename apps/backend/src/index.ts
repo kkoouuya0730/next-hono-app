@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { postsRoute } from "./routes/postsRoute";
+import { postsRoute } from "./routes/post.route";
 import { commentsRoute } from "./routes/commentsRoute";
 import { likesRoute } from "./routes/likesRoute";
 import { followsRoute } from "./routes/followsRoute";

@@ -1,5 +1,5 @@
 import { CreatePostDTO, UpdatePostDTO } from "../domain/post";
-import { CreatePostParam, UpdatePostParam } from "../schemas/postsSchema";
+import { CreatePostParam, UpdatePostParam } from "../schemas/post.schema";
 
 export class PostMapper {
   static toCreateDTO(userId: number, body: CreatePostParam): CreatePostDTO {

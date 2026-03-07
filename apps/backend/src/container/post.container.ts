@@ -1,6 +1,6 @@
-import { PostRepositoryImpl } from "../repository/postRepository";
-import { PostService } from "../service/postService";
-import { PostHandler } from "../handler/postHandler";
+import { PostRepositoryImpl } from "../repository/post.repository";
+import { PostService } from "../service/post.service";
+import { PostHandler } from "../handler/post.handler";
 
 const postRepository = new PostRepositoryImpl();
 const postService = new PostService(postRepository);

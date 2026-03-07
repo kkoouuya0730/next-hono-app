@@ -1,6 +1,6 @@
 import type { Context } from "hono";
-import { PostService } from "../service/postService";
-import { CreatePostParam, UpdatePostParam } from "../schemas/postsSchema";
+import { PostService } from "../service/post.service";
+import { CreatePostParam, UpdatePostParam } from "../schemas/post.schema";
 import { PostMapper } from "../mappers/post.mapper";
 
 export class PostHandler {

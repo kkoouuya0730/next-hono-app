@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { createPostSchema, idParamSchema, updatePostSchema } from "../schemas/postsSchema";
+import { createPostSchema, idParamSchema, updatePostSchema } from "../schemas/post.schema";
 import { zValidatorWrapper } from "../validators";
 import { postHandler } from "../container/post.container";
 
