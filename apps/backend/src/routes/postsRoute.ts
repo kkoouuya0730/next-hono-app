@@ -1,14 +1,9 @@
 import { Hono } from "hono";
 import { createPostSchema, idParamSchema, updatePostSchema } from "../schemas/postsSchema";
 import { zValidatorWrapper } from "../validators";
-import { PostRepository } from "../repository/postRepository";
-import { PostService } from "../service/postService";
-import { PostHandler } from "../handler/postHandler";
+import { postHandler } from "../container/post.container";
 
 export const postsRoute = new Hono();
-const postRepository = new PostRepository();
-const postService = new PostService(postRepository);
-const postHandler = new PostHandler(postService);
 
 // 投稿一覧取得
 postsRoute.get("/", async (c) => postHandler.getPosts(c));
