@@ -4,8 +4,8 @@ import { createDb } from "../db";
 import { follows as FollowsTable } from "../db/schema";
 import { and, eq } from "drizzle-orm";
 import { CreateFollowParam, toggleFollowSchema } from "../schemas/followsSchema";
-import { BadRequestError } from "../errors";
-import { zValidatorWrapper } from "../validators";
+import { BadRequestError } from "../lib/errors";
+import { zValidatorWrapper } from "../lib/validator/zValidatorWrapper";
 
 export const followsRoute = new Hono();
 

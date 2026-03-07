@@ -3,8 +3,8 @@ import { createDb } from "../db";
 import { likes as LikesTable, posts, users } from "../db/schema";
 import { and, eq } from "drizzle-orm";
 import { ToggleLikesParam, toggleLikesSchema } from "../schemas/likesSchema";
-import { BadRequestError, NotFoundError } from "../errors";
-import { zValidatorWrapper } from "../validators";
+import { BadRequestError, NotFoundError } from "../lib/errors";
+import { zValidatorWrapper } from "../lib/validator/zValidatorWrapper";
 
 export const likesRoute = new Hono();
 

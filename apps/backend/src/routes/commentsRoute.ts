@@ -8,8 +8,8 @@ import {
   updateCommentSchema,
 } from "../schemas/commentsSchema";
 import { desc, eq } from "drizzle-orm";
-import { BadRequestError, NotFoundError } from "../errors";
-import { zValidatorWrapper } from "../validators";
+import { BadRequestError, NotFoundError } from "../lib/errors";
+import { zValidatorWrapper } from "../lib/validator/zValidatorWrapper";
 
 export const commentsRoute = new Hono();
 

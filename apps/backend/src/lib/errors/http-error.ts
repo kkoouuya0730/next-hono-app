@@ -1,5 +1,11 @@
 export type ErrorDetails = Record<string, unknown> | undefined;
 
+export type ErrorResponse = {
+  success: false;
+  message: string;
+  details?: unknown;
+};
+
 export class HttpError extends Error {
   public status: number;
   public details: ErrorDetails;
@@ -9,6 +15,10 @@ export class HttpError extends Error {
     this.details = details;
 
     Object.setPrototypeOf(this, new.target.prototype);
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    }
   }
 }
 
@@ -16,16 +26,6 @@ export class HttpError extends Error {
 export class BadRequestError extends HttpError {
   constructor(message = "Bad Request", details?: ErrorDetails) {
     super(400, message, details);
-  }
-}
-
-// バリデーションエラー
-export class ValidationError extends BadRequestError {
-  public issues: unknown[];
-  constructor(issues: unknown[], message = "Validation Error") {
-    super(message, { issues });
-    this.issues = issues;
-    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 

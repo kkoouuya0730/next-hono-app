@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
-import { ValidationError } from "./errors";
+import { ValidationError } from "../errors";
 
 type ValidatorTarget = "json" | "param" | "query" | "form" | "header";
 
