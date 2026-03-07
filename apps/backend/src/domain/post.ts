@@ -7,14 +7,14 @@ export type Post = {
   userId: number;
 };
 
-export type CreatePostInput = {
+export type CreatePostDTO = {
   userId: number;
   content: string;
-  imageUrl?: string | null;
+  imageUrl?: string;
 };
 
-export type UpdatePostInput = {
+export type UpdatePostDTO = {
   postId: number;
   content: string;
-  imageUrl?: string | null;
+  imageUrl?: string;
 };

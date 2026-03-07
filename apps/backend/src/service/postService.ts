@@ -1,4 +1,4 @@
-import { CreatePostInput, Post, UpdatePostInput } from "../domain/post";
+import { CreatePostDTO, Post, UpdatePostDTO } from "../domain/post";
 import { NotFoundError } from "../errors";
 import { PostRepository } from "../repository/postRepository";
 
@@ -16,12 +16,12 @@ export class PostService {
     return post;
   }
 
-  async createPost({ userId, content, imageUrl }: CreatePostInput): Promise<Post> {
+  async createPost({ userId, content, imageUrl }: CreatePostDTO): Promise<Post> {
     const newPost = await this.postRepository.create({ userId, content, imageUrl });
     return newPost;
   }
 
-  async updatePost({ postId, content, imageUrl }: UpdatePostInput): Promise<Post> {
+  async updatePost({ postId, content, imageUrl }: UpdatePostDTO): Promise<Post> {
     const updatedPost = await this.postRepository.update({ postId, content, imageUrl });
     if (!updatedPost) throw new NotFoundError("Post not found");
     return updatedPost;

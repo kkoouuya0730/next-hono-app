@@ -1,6 +1,7 @@
 import type { Context } from "hono";
 import { PostService } from "../service/postService";
 import { CreatePostParam, UpdatePostParam } from "../schemas/postsSchema";
+import { PostMapper } from "../mappers/post.mapper";
 
 export class PostHandler {
   constructor(private postService: PostService) {}
@@ -17,15 +18,18 @@ export class PostHandler {
   }
 
   async createPost(c: Context) {
+    const user = c.get("user");
     const body = (await c.req.json()) as CreatePostParam;
-    const newPost = await this.postService.createPost(body);
+    const createDto = PostMapper.toCreateDTO(Number(user.userId), body);
+    const newPost = await this.postService.createPost(createDto);
     return c.json({ success: true, data: newPost });
   }
 
   async updatePost(c: Context) {
     const id = Number(c.req.param("id"));
-    const { content, imageUrl } = (await c.req.json()) as UpdatePostParam;
-    const updatedPost = await this.postService.updatePost({ postId: id, content, imageUrl });
+    const body = (await c.req.json()) as UpdatePostParam;
+    const updateDto = PostMapper.toUpdateDTO(id, body);
+    const updatedPost = await this.postService.updatePost(updateDto);
     return c.json({ success: true, data: updatedPost });
   }
 

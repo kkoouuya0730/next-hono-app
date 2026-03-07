@@ -1,6 +1,6 @@
 import { createDb } from "../db";
 import { posts } from "../db/schema";
-import { CreatePostInput, Post, UpdatePostInput } from "../domain/post";
+import { CreatePostDTO, Post, UpdatePostDTO } from "../domain/post";
 import { desc, eq } from "drizzle-orm";
 
 export class PostRepository {
@@ -37,7 +37,7 @@ export class PostRepository {
     return result[0] ?? null;
   }
 
-  async create({ userId, content, imageUrl }: CreatePostInput): Promise<Post> {
+  async create({ userId, content, imageUrl }: CreatePostDTO): Promise<Post> {
     const db = createDb();
     const result = await db
       .insert(posts)
@@ -50,7 +50,7 @@ export class PostRepository {
     return result[0];
   }
 
-  async update({ postId, content, imageUrl }: UpdatePostInput): Promise<Post | null> {
+  async update({ postId, content, imageUrl }: UpdatePostDTO): Promise<Post | null> {
     const db = createDb();
     const result = await db
       .update(posts)
