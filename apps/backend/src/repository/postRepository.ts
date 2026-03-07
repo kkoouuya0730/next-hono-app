@@ -2,8 +2,9 @@ import { createDb } from "../db";
 import { posts } from "../db/schema";
 import { CreatePostDTO, Post, UpdatePostDTO } from "../domain/post";
 import { desc, eq } from "drizzle-orm";
+import { PostRepository } from "./post.repository.interface";
 
-export class PostRepository {
+export class PostRepositoryImpl implements PostRepository {
   async findAll(): Promise<Post[]> {
     const db = createDb();
     const result = await db

@@ -1,6 +1,6 @@
 import { CreatePostDTO, Post, UpdatePostDTO } from "../domain/post";
 import { NotFoundError } from "../errors";
-import { PostRepository } from "../repository/postRepository";
+import { PostRepository } from "../repository/post.repository.interface";
 
 export class PostService {
   constructor(private postRepository: PostRepository) {}
