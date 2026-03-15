@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { postsRoute } from "./routes/post.route";
 import { commentsRoute } from "./routes/commentsRoute";
-import { likesRoute } from "./routes/likesRoute";
+import { likesRoute } from "./routes/like.route";
 import { followsRoute } from "./routes/followsRoute";
 import { meRoute } from "./routes/me";
 import { errorHandler } from "./error-handler";
@@ -25,7 +25,7 @@ app.onError(errorHandler);
 const route = app
   .route("/posts", postsRoute)
   .route("/comments", commentsRoute)
-  .route("/likes", likesRoute)
+  .route("/posts", likesRoute)
   .route("/follows", followsRoute)
   .route("/me", meRoute);
 
