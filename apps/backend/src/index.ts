@@ -3,7 +3,7 @@ import { cors } from "hono/cors";
 import { postsRoute } from "./routes/post.route";
 import { commentsRoute } from "./routes/commentsRoute";
 import { likesRoute } from "./routes/like.route";
-import { followsRoute } from "./routes/followsRoute";
+import { followsRoute } from "./routes/follow.route";
 import { meRoute } from "./routes/me";
 import { errorHandler } from "./error-handler";
 
